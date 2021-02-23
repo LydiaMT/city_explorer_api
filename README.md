@@ -16,13 +16,14 @@ For this lab assignment, you will convert a location entered by the user into a 
 1. Repo set up
 2. Locations: As a user of City Explorer, I want to enter the name of a location so that I can see data about the area of interest to me.
 3. Weather: As a user, I want to request current weather information so that I can learn more about the typical weather patterns in the location I had entered.
-4. Errors: As a user, I want clear messages if something goes wrong so I know if I need to make any changes or try again in a different manner.
+
 
 **Lab 7:**
-1. Data formatting: As a user, I want the application to provide properly formatted data so that I can view similar data for any location I choose.
-2. Locations: As a user, I want to enter the name of a location so that I do not need to look up the latitude and longitude every time I learn about a new location.
-3. Weather: As a user, I want to request current weather information at any location, so that I can learn more about the typical weather patterns in the area of interest.
-4. Parks: As a user, I want to request information about parks and campgrounds in the area so that I can see details about what parks are nearby.
+1. Errors: As a user, I want clear messages if something goes wrong so I know if I need to make any changes or try again in a different manner.
+2. Data formatting: As a user, I want the application to provide properly formatted data so that I can view similar data for any location I choose.
+3. Locations: As a user, I want to enter the name of a location so that I do not need to look up the latitude and longitude every time I learn about a new location.
+4. Weather: As a user, I want to request current weather information at any location, so that I can learn more about the typical weather patterns in the area of interest.
+5. Parks: As a user, I want to request information about parks and campgrounds in the area so that I can see details about what parks are nearby.
 
 **Lab 8:**
 1. Database: As a user, I want the application to perform quickly, so that I can search for locations frequently and reliably.
@@ -66,14 +67,16 @@ lab-06-repository
 
 ## User Acceptance Tests
 Number and name of feature: Lab 6 | Day 1 - 3 Features (Skipping Errors goal for today)
-
 Estimate of time needed to complete: 6
-
 Start time: 2pm
-
 Finish time: 5pm
-
 Actual time needed to complete: 3 hours
+
+Number and name of feature: Lab 6 | Day 1 - 5 Features
+Estimate of time needed to complete: 6
+Start time: 3pm
+Finish time: ???
+Actual time needed to complete: ???
 
 ## Credits and Collaborations
 * TBD
