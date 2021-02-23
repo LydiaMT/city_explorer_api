@@ -1,7 +1,7 @@
 # City Explorer API
 
 **Author**: Lydia Minehan-Tubic
-**Version**: 1.0.0 
+**Version**: 1.0.3 
 
 ## Overview
 
@@ -71,15 +71,10 @@ Estimate of time needed to complete: 6
 
 Start time: 2pm
 
-Finish time: TBD
+Finish time: 5pm
 
-Actual time needed to complete: TBD
+Actual time needed to complete: 3 hours
 
 ## Credits and Collaborations
-* TBD
-* TBD
-* TBD
-* TBD
-* TBD
 * TBD
 * TBD
