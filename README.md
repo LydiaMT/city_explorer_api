@@ -42,6 +42,7 @@ For this lab assignment, you will convert a location entered by the user into a 
 
 ## Architecture
 
+```sh
 lab-06-repository
    ├── data
    |     ├── weather.json
@@ -52,6 +53,7 @@ lab-06-repository
    ├── package-lock.json
    ├── package.json
    └── server.js
+```
 
 * [Front End](https://codefellows.github.io/code-301-guide/curriculum/city-explorer-app/front-end/)
 * [Node JS Docs](https://nodejs.org/en/)

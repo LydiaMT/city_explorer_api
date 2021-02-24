@@ -1,14 +1,12 @@
 'use strict';
 
 // ============== Packages ==============================
-
 const express = require('express');
 const superagent = require('superagent');
 const cors = require('cors');
 require('dotenv').config();
 
 // ============== App ===================================
-
 const app = express();
 app.use(cors());
 
@@ -18,12 +16,11 @@ const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 const PARKS_API_KEY = process.env.PARKS_API_KEY;
 
 // ============== Routes ================================
-
 ////////// Pathway //////////
 app.get('/location', handleGetLocation);
 app.get('/weather', handleGetWeather);
 app.get('/parks', handleGetParks);
-
+app.get('/yelp', handleGetYelp);
 ////////// Functions //////////
 function handleGetLocation(request, response){
   const city = request.query.city;
@@ -65,7 +62,10 @@ function handleGetParks(request, response) {
     response.status(500).send('Sorry something went wrong');
   });
 }
-
+function handleGetYelp(request, response) {
+  const output = "Yelp capabilities coming soon!";
+  response.send(output);
+}
 ////////// Objects //////////
 function Location(dataFromTheFile, cityName){
   this.search_query = cityName;
@@ -79,11 +79,11 @@ function Weather(data) {
 }
 function Parks(parkData){
   this.name = parkData.fullName;
-  this.address = parkData.addresses[0].line1;
+  this.address = `${parkData.addresses[0].line1} ${parkData.addresses[0].city} ${parkData.addresses[0].stateCode} ${parkData.addresses[0].postalCode}`;
   this.fee = parkData.entranceFees[0].cost;
   this.description = parkData.description;
   this.url = parkData.url;
 }
 
 // ============== Initialization ========================
-app.listen(PORT, () => console.log(`app is up on port http://localhost:${PORT}`)); // this is what starts the server
+app.listen(PORT, () => console.log(`app is up on port http://localhost:${PORT}`));
