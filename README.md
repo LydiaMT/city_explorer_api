@@ -1,7 +1,7 @@
 # City Explorer API
 
 **Author**: Lydia Minehan-Tubic
-**Version**: 1.0.3 
+**Version**: 2.0.7 
 
 ## Overview
 
@@ -64,6 +64,17 @@ lab-06-repository
 ## Change Log
 
 02-22-2021 2:00pm - Project start Day 1 - Lab 6
+02-22-2021 3:00pm - First Commit
+02-22-2021 3:30pm - Added Location
+02-22-2021 4:00pm - Added Weather
+02-22-2021 5:00pm - Final Push
+02-23-2021 3:00pm - Project start Day 2 - Lab 7
+02-23-2021 3:30pm - Refactored with .map()
+02-23-2021 4:00pm - Added location API
+02-23-2021 5:0pm - added .catch
+02-23-2021 6:00pm - finalized weather
+02-23-2021 7:00pm - Got Parks to work
+02-23-2021 8:00pm - Final Push
 
 ## User Acceptance Tests
 Number and name of feature: Lab 6 | Day 1 - 3 Features (Skipping Errors goal for today)
@@ -75,8 +86,8 @@ Actual time needed to complete: 3 hours
 Number and name of feature: Lab 7 | Day 2 - 5 Features
 Estimate of time needed to complete: 6
 Start time: 3pm
-Finish time: ???
-Actual time needed to complete: ???
+Finish time: 8pm
+Actual time needed to complete: 5
 
 ## Credits and Collaborations
 * TBD
