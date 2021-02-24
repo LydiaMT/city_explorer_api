@@ -37,9 +37,10 @@ function handleGetLocation(request, response){
 }
 
 function handleGetWeather(request, response){
-  const url = `https://api.weatherbit.io/v2.0/current?lat=35.7796&lon=-78.6382&key=${WEATHER_API_KEY}`;
+  const lat = request.query.latitude;
+  const lon = request.query.longitude;
+  const url = `https://api.weatherbit.io/v2.0/current?lat=${lat}&lon=${lon}&key=${WEATHER_API_KEY}`;
   superagent.get(url).then(weatherThatComesBack => {
-    console.log(weatherThatComesBack);
     const output = weatherThatComesBack.body.data.map(weatherData => {
       return new Weather(weatherData);
     });
@@ -64,7 +65,7 @@ function Location(dataFromTheFile, cityName){
 
 function Weather(data) {
   this.forecast = data.weather.description;
-  this.time = data.valid_date;
+  this.time = data.datetime;
 }
 
 // function Parks(parkData){
