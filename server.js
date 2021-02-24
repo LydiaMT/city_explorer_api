@@ -13,7 +13,8 @@ const app = express();
 app.use(cors());
 
 const PORT = process.env.PORT || 3002;
-const GEOCODE_API_KEY =process.env.GEOCODE_API_KEY;
+const GEOCODE_API_KEY = process.env.GEOCODE_API_KEY;
+const WEATHER_API_KEY= process.env.WEATHER_API_KEY;
 
 // ============== Routes ================================
 
@@ -27,19 +28,26 @@ function handleGetLocation(request, response){
   const city = request.query.city;
   const url = `https://us1.locationiq.com/v1/search.php?key=${GEOCODE_API_KEY}&q=${city}&format=json`;
   superagent.get(url).then(locationThatComesBack => {
-    console.log(locationThatComesBack.body);
     const output = new Location(locationThatComesBack.body, request.query.city);
     response.send(output);
+  }).catch(errorThatComesBack => {
+    console.log(errorThatComesBack);
+    response.status(500).send('Sorry something went wrong');
   });
-
 }
 
 function handleGetWeather(request, response){
-  const weatherJSON = require('./data/weather.json');
-  const output = weatherJSON.data.map((weatherData) => {
-    return new Weather(weatherData);
+  const url = `https://api.weatherbit.io/v2.0/current?lat=35.7796&lon=-78.6382&key=${WEATHER_API_KEY}`;
+  superagent.get(url).then(weatherThatComesBack => {
+    console.log(weatherThatComesBack);
+    const output = weatherThatComesBack.body.data.map(weatherData => {
+      return new Weather(weatherData);
+    });
+    response.send(output);
+  }).catch(errorThatComesBack => {
+    console.log(errorThatComesBack);
+    response.status(500).send('Sorry something went wrong');
   });
-  response.send(output);
 }
 
 // function handleGetParks(request, response) {
