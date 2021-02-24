@@ -3,6 +3,7 @@
 // ============== Packages ==============================
 
 const express = require('express');
+const superagent = require('superagent');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -12,7 +13,7 @@ const app = express();
 app.use(cors());
 
 const PORT = process.env.PORT || 3002;
-console.log(process.env.PORT);
+const GEOCODE_API_KEY =process.env.GEOCODE_API_KEY;
 
 // ============== Routes ================================
 
@@ -23,9 +24,14 @@ app.get('/weather', handleGetWeather);
 
 ////////// Functions //////////
 function handleGetLocation(request, response){
-  const dataFromTheFile = require('./data/location.json');
-  const output = new Location(dataFromTheFile, request.query.city);
-  response.send(output);
+  const city = request.query.city;
+  const url = `https://us1.locationiq.com/v1/search.php?key=${GEOCODE_API_KEY}&q=${city}&format=json`;
+  superagent.get(url).then(locationThatComesBack => {
+    console.log(locationThatComesBack.body);
+    const output = new Location(locationThatComesBack.body, request.query.city);
+    response.send(output);
+  });
+
 }
 
 function handleGetWeather(request, response){

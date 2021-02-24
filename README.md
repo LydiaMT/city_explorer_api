@@ -72,7 +72,7 @@ Start time: 2pm
 Finish time: 5pm
 Actual time needed to complete: 3 hours
 
-Number and name of feature: Lab 6 | Day 1 - 5 Features
+Number and name of feature: Lab 7 | Day 2 - 5 Features
 Estimate of time needed to complete: 6
 Start time: 3pm
 Finish time: ???
