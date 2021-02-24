@@ -36,7 +36,6 @@ function handleGetLocation(request, response){
     response.status(500).send('Sorry something went wrong');
   });
 }
-
 function handleGetWeather(request, response){
   const lat = request.query.latitude;
   const lon = request.query.longitude;
@@ -51,7 +50,6 @@ function handleGetWeather(request, response){
     response.status(500).send('Sorry something went wrong');
   });
 }
-
 function handleGetParks(request, response) {
   const parkCode = request.query.formatted_query;
   const url = `https://developer.nps.gov/api/v1/parks?limit=10&start=0&q=${parkCode}&sort=&api_key=${PARKS_API_KEY}`;
