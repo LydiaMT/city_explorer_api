@@ -14,14 +14,15 @@ app.use(cors());
 
 const PORT = process.env.PORT || 3002;
 const GEOCODE_API_KEY = process.env.GEOCODE_API_KEY;
-const WEATHER_API_KEY= process.env.WEATHER_API_KEY;
+const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
+const PARKS_API_KEY = process.env.PARKS_API_KEY;
 
 // ============== Routes ================================
 
 ////////// Pathway //////////
 app.get('/location', handleGetLocation);
 app.get('/weather', handleGetWeather);
-// app.get('/parks', handleGetParks);
+app.get('/parks', handleGetParks);
 
 ////////// Functions //////////
 function handleGetLocation(request, response){
@@ -51,9 +52,21 @@ function handleGetWeather(request, response){
   });
 }
 
-// function handleGetParks(request, response) {
-
-// }
+function handleGetParks(request, response) {
+  const parkCode = request.query.formatted_query;
+  const url = `https://developer.nps.gov/api/v1/parks?limit=10&start=0&q=${parkCode}&sort=&api_key=${PARKS_API_KEY}`;
+  // console.log(request.query);
+  superagent.get(url).then(parkThatComesBack => {
+    // console.log(parkThatComesBack);
+    const output = parkThatComesBack.body.data.map(parkValue => {
+      return new Parks(parkValue);
+    });
+    response.send(output);
+  }).catch(errorThatComesBack => {
+    console.log(errorThatComesBack);
+    response.status(500).send('Sorry something went wrong');
+  });
+}
 
 ////////// Objects //////////
 function Location(dataFromTheFile, cityName){
@@ -62,19 +75,17 @@ function Location(dataFromTheFile, cityName){
   this.latitude = dataFromTheFile[0].lat;
   this.longitude = dataFromTheFile[0].lon;
 }
-
 function Weather(data) {
   this.forecast = data.weather.description;
   this.time = data.datetime;
 }
-
-// function Parks(parkData){
-//   this.name = parkData.xxx;
-//   this.address = parkData.xxx;
-//   this.fee = parkData.xxx;
-//   this.description = parkData.xxx;
-//   this.url = parkData.xxx;
-// }
+function Parks(parkData){
+  this.name = parkData.fullName;
+  this.address = parkData.addresses[0].line1;
+  this.fee = parkData.entranceFees[0].cost;
+  this.description = parkData.description;
+  this.url = parkData.url;
+}
 
 // ============== Initialization ========================
 app.listen(PORT, () => console.log(`app is up on port http://localhost:${PORT}`)); // this is what starts the server
