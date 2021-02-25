@@ -17,12 +17,14 @@ const PORT = process.env.PORT || 3002;
 const GEOCODE_API_KEY = process.env.GEOCODE_API_KEY;
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 const PARKS_API_KEY = process.env.PARKS_API_KEY;
+const MOVIE_API_KEY = process.env.MOVIE_API_KEY;
 
 // ============== Routes ================================
 ////////// Pathway //////////
 app.get('/location', handleGetLocation);
 app.get('/weather', handleGetWeather);
 app.get('/parks', handleGetParks);
+app.get('/movies', handleGetMovies);
 app.get('/yelp', handleGetYelp);
 ////////// Functions //////////
 
@@ -70,15 +72,33 @@ function handleGetWeather(request, response){
 function handleGetParks(request, response) {
   const parkCode = request.query.formatted_query;
   const url = `https://developer.nps.gov/api/v1/parks?limit=3&start=0&q=${parkCode}&sort=&api_key=${PARKS_API_KEY}`;
-  // console.log(request.query);
-  superagent.get(url).then(parkThatComesBack => {
-    // console.log(parkThatComesBack);
-    const output = parkThatComesBack.body.data.map(parkValue => new Parks(parkValue));
-    response.send(output);
-  }).catch(errorThatComesBack => {
-    console.log(errorThatComesBack);
-    response.status(500).send('Sorry something went wrong');
-  });
+  superagent.get(url)
+    .then(parkThatComesBack => {
+      const parkArray = parkThatComesBack.body.data;
+      const output = parkArray.map(parkValue => new Parks(parkValue));
+      response.send(output);
+    })
+    .catch(errorThatComesBack => {
+      console.log(errorThatComesBack);
+      response.status(500).send('Sorry something went wrong');
+    });
+}
+
+function handleGetMovies(request, response){
+  const movieRequest = request.query.search_query;
+  console.log(request.query.search_query);
+  const url = `https://api.themoviedb.org/3/search/movie?api_key=${MOVIE_API_KEY}&query=${movieRequest}`;
+  superagent.get(url)
+    .then(movieThatComesBack => {
+      console.log(movieThatComesBack.body);
+      const movieArray = movieThatComesBack.body.results;
+      const output = movieArray.map(movieValue => new Movies(movieValue));
+      response.send(output);
+    })
+    .catch(errorThatComesBack => {
+      console.log(errorThatComesBack);
+      response.status(500).send('Sorry something went wrong');
+    });
 }
 
 function handleGetYelp(request, response) {
@@ -103,6 +123,16 @@ function Parks(parkData){
   this.fee = parkData.entranceFees[0].cost;
   this.description = parkData.description;
   this.url = parkData.url;
+}
+
+function Movies(movieData){
+  this.title = movieData.original_title;
+  this.overview = movieData.overview;
+  this.average_votes = movieData.vote_average;
+  this.total_votes = movieData.vote_count;
+  this.image_url = `https://image.tmdb.org/t/p/w500/${movieData.poster_path}`;
+  this.popularity = movieData.popularity;
+  this.released_on = movieData.release_date;
 }
 
 // ============== Initialization ========================
