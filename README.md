@@ -79,6 +79,7 @@ lab-06-repository
 * 02-23-2021 8:00pm - Final Push
 * 02-24-2021 3:30pm - Project start Day 3 - Lab 8
 * 02-24-2021 6:15pm - First push - added database and updated location function
+* 02-24-2021 7:30pm - Final push - Fixed Heroku issues
 
 
 ## User Acceptance Tests
@@ -98,8 +99,8 @@ lab-06-repository
 * Number and name of feature: Lab 8 | Day 3 - 4 Features
 * Estimate of time needed to complete: 6
 * Start time: 3pm
-* Finish time: TBD
-* Actual time needed to complete: TBD
+* Finish time: 7:30pm
+* Actual time needed to complete: 4
 
 ## Credits and Collaborations
 
