@@ -42,11 +42,13 @@ function handleGetLocation(request, response){
         superagent.get(url)
           .then(locationThatComesBack => {
             const output = new Location(locationThatComesBack.body, request.query.city);
-            response.send(output);
             const sqlString = 'INSERT INTO location_table (search_query, formatted_query, latitude, longitude) VALUES($1, $2, $3, $4)';
-            const sqlArray = [request.search_query, request.formatted_query, request.latitude, request.longitude];
+            const sqlArray = [output.search_query, output.formatted_query, output.latitude, output.longitude];
             client.query(sqlString, sqlArray).then(() => {
-              response.redirect('/');
+              response.send(output);
+            }).catch(errorThatComesBack => {
+              console.log(errorThatComesBack);
+              response.status(500).send('Sorry something went wrong');
             });
           }).catch(errorThatComesBack => {
             console.log(errorThatComesBack);
