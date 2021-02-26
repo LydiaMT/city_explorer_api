@@ -107,8 +107,8 @@ lab-06-repository
 * Number and name of feature: Lab 9 | Day 4 - 3 Features
 * Estimate of time needed to complete: 6
 * Start time: 2:30pm
-* Finish time: TBD
-* Actual time needed to complete: TBD
+* Finish time: 4:45pm
+* Actual time needed to complete: 2.25
 
 ## Credits and Collaborations
 
