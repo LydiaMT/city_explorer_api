@@ -39,18 +39,19 @@ function handleGetLocation(request, response){
       } else {
         const city = request.query.city;
         const url = `https://us1.locationiq.com/v1/search.php?key=${GEOCODE_API_KEY}&q=${city}&format=json`;
-        superagent.get(url).then(locationThatComesBack => {
-          const output = new Location(locationThatComesBack.body, request.query.city);
-          response.send(output);
-          const sqlString = 'INSERT INTO location_table (search_query, formatted_query, latitude, longitude) VALUES($1, $2, $3, $4)';
-          const sqlArray = [request.search_query, request.formatted_query, request.latitude, request.longitude];
-          client.query(sqlString, sqlArray).then(() => {
-            response.redirect('/');
+        superagent.get(url)
+          .then(locationThatComesBack => {
+            const output = new Location(locationThatComesBack.body, request.query.city);
+            response.send(output);
+            const sqlString = 'INSERT INTO location_table (search_query, formatted_query, latitude, longitude) VALUES($1, $2, $3, $4)';
+            const sqlArray = [request.search_query, request.formatted_query, request.latitude, request.longitude];
+            client.query(sqlString, sqlArray).then(() => {
+              response.redirect('/');
+            });
+          }).catch(errorThatComesBack => {
+            console.log(errorThatComesBack);
+            response.status(500).send('Sorry something went wrong');
           });
-        }).catch(errorThatComesBack => {
-          console.log(errorThatComesBack);
-          response.status(500).send('Sorry something went wrong');
-        });
       }
     });
 }
@@ -70,7 +71,7 @@ function handleGetWeather(request, response){
   });
 }
 
-function handleGetParks(request, response) {
+function handleGetParks(request, response){
   const parkCode = request.query.formatted_query;
   const url = `https://developer.nps.gov/api/v1/parks?limit=3&start=0&q=${parkCode}&sort=&api_key=${PARKS_API_KEY}`;
   superagent.get(url)
@@ -100,7 +101,7 @@ function handleGetMovies(request, response){
     });
 }
 
-function handleGetYelp(request, response) {
+function handleGetYelp(request, response){
   const offset = (request.query.page - 1) * 5;
   const lat = request.query.latitude;
   const lon = request.query.longitude;
@@ -109,7 +110,6 @@ function handleGetYelp(request, response) {
     .set('authorization', `bearer ${YELP_API_KEY}`)
     .then(restaurantsThatComesBack => {
       const restaurantArray = restaurantsThatComesBack.body.businesses;
-      console.log(restaurantArray);
       const output = restaurantArray.map(restaurantValue => new Yelp(restaurantValue));
       response.send(output);
     })
@@ -126,10 +126,12 @@ function Location(dataFromTheFile, cityName){
   this.latitude = dataFromTheFile[0].lat;
   this.longitude = dataFromTheFile[0].lon;
 }
-function Weather(data) {
+
+function Weather(data){
   this.forecast = data.weather.description;
   this.time = data.datetime;
 }
+
 function Parks(parkData){
   this.name = parkData.fullName;
   this.address = `${parkData.addresses[0].line1} ${parkData.addresses[0].city} ${parkData.addresses[0].stateCode} ${parkData.addresses[0].postalCode}`;
