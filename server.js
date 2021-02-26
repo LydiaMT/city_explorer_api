@@ -18,6 +18,7 @@ const GEOCODE_API_KEY = process.env.GEOCODE_API_KEY;
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 const PARKS_API_KEY = process.env.PARKS_API_KEY;
 const MOVIE_API_KEY = process.env.MOVIE_API_KEY;
+const YELP_API_KEY = process.env.YELP_API_KEY;
 
 // ============== Routes ================================
 ////////// Pathway //////////
@@ -86,11 +87,9 @@ function handleGetParks(request, response) {
 
 function handleGetMovies(request, response){
   const movieRequest = request.query.search_query;
-  console.log(request.query.search_query);
   const url = `https://api.themoviedb.org/3/search/movie?api_key=${MOVIE_API_KEY}&query=${movieRequest}`;
   superagent.get(url)
     .then(movieThatComesBack => {
-      console.log(movieThatComesBack.body);
       const movieArray = movieThatComesBack.body.results;
       const output = movieArray.map(movieValue => new Movies(movieValue));
       response.send(output);
@@ -102,8 +101,22 @@ function handleGetMovies(request, response){
 }
 
 function handleGetYelp(request, response) {
-  const output = "Yelp capabilities coming soon!";
-  response.send(output);
+  const offset = (request.query.page - 1) * 5;
+  const lat = request.query.latitude;
+  const lon = request.query.longitude;
+  const url = `https://api.yelp.com/v3/businesses/search?term=restaurant&limit=5&latitude=${lat}&longitude=${lon}&offset=${offset}`;
+  superagent.get(url)
+    .set('authorization', `bearer ${YELP_API_KEY}`)
+    .then(restaurantsThatComesBack => {
+      const restaurantArray = restaurantsThatComesBack.body.businesses;
+      console.log(restaurantArray);
+      const output = restaurantArray.map(restaurantValue => new Yelp(restaurantValue));
+      response.send(output);
+    })
+    .catch(errorThatComesBack => {
+      console.log(errorThatComesBack);
+      response.status(500).send('Sorry something went wrong');
+    });
 }
 
 ////////// Objects //////////
@@ -133,6 +146,14 @@ function Movies(movieData){
   this.image_url = `https://image.tmdb.org/t/p/w500/${movieData.poster_path}`;
   this.popularity = movieData.popularity;
   this.released_on = movieData.release_date;
+}
+
+function Yelp(yelpData){
+  this.name = yelpData.name;
+  this.image_url = yelpData.image_url;
+  this.price = yelpData.price;
+  this.rating = yelpData.rating;
+  this.url = yelpData.url;
 }
 
 // ============== Initialization ========================
